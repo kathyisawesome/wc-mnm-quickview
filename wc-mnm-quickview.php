@@ -80,8 +80,23 @@ class WC_MNM_Quickview {
 	 */
 	public static function register_scripts() {
 
-		$script_dependencies = array( 'jquery', 'prettyPhoto', 'wc-single-product', 'wc-add-to-cart-variation', 'wc-add-to-cart-mnm' );
+		$suffix         = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '': '.min';
+
+		// Styles.
+		$style_path    = 'assets/css/frontend/quickview' . $suffix . '.css';
+		$style_url     = trailingslashit( plugins_url( '/', __FILE__ ) ) . $style_path;
+		$style_version = WC_Mix_and_Match()->get_file_version( trailingslashit( plugin_dir_path( __FILE__ ) ) . $style_path, self::VERSION );
+
 		$style_dependencies  = array( 'woocommerce_prettyPhoto_css' );
+
+		wp_enqueue_style( 'wc-mnm-quickview', $style_url, array( 'wc-mnm-frontend' ), $style_version );
+		wp_style_add_data( 'wc-mnm-quickview', 'rtl', 'replace' );
+
+		if ( $suffix ) {
+			wp_style_add_data( 'wc-mnm-quickview', 'suffix', '.min' );
+		}
+
+		$script_dependencies = array( 'jquery', 'prettyPhoto', 'wc-single-product', 'wc-add-to-cart-variation', 'wc-add-to-cart-mnm' );
 
 		// Load gallery scripts on product pages only if supported.
 		if ( current_theme_supports( 'wc-product-gallery-zoom' ) ) {
