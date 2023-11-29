@@ -1,0 +1,7 @@
+{
+    "name": "kathyisawesome/wc-mnm-quickview",
+    "description": "Add modal lightbox support for child items.",
+    "homepage": "https://github.com/kathyisawesome/wc-mnm-quickview",
+    "type": "wordpress-plugin",
+    "license": "GPL-3.0-or-later"
+}
