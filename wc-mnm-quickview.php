@@ -90,9 +90,9 @@ class WC_MNM_Quickview {
 		$style_url     = trailingslashit( plugins_url( '/', __FILE__ ) ) . $style_path;
 		$style_version = WC_Mix_and_Match()->get_file_version( trailingslashit( plugin_dir_path( __FILE__ ) ) . $style_path, self::VERSION );
 
-		$style_dependencies  = array( 'woocommerce_prettyPhoto_css' );
+		$style_dependencies  = array( 'woocommerce_prettyPhoto_css', 'wc-mnm-frontend' );
 
-		wp_enqueue_style( 'wc-mnm-quickview', $style_url, array( 'wc-mnm-frontend' ), $style_version );
+		wp_enqueue_style( 'wc-mnm-quickview', $style_url, $style_dependencies, $style_version );
 		wp_style_add_data( 'wc-mnm-quickview', 'rtl', 'replace' );
 
 		if ( $suffix ) {
