@@ -206,6 +206,8 @@ class WC_MNM_Quickview {
 	public static function template_hooks() {
 		// Change form action to avoid redirect to product page.
 		add_filter( 'woocommerce_add_to_cart_form_action', '__return_empty_string' );
+
+		remove_action( 'woocommerce_before_single_product_summary', 'woocommerce_show_product_sale_flash', 10 );
 		remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_price', 10 );
 		remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_add_to_cart', 30 );
 	}
