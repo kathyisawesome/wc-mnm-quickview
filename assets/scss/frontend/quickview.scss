@@ -52,3 +52,9 @@ div.wc-mnm-quick-view {
 		}
 	}
 }
+
+// Fix modal height. 
+.product-type-mix-and-match .pp_woocommerce_quick_view .pp_content {
+	overflow: auto;
+	height: auto !important;
+}
