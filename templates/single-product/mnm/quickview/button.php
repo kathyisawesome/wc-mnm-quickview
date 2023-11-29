@@ -14,8 +14,8 @@
  * @author  Kathy Darling
  * @package WooCommerce Mix and Match/Templates
  * @since   1.0.0
+ * @version 2.0.0
  */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
@@ -23,9 +23,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 echo apply_filters(
 	'wc_mnm_child_quick_view_button',
 	sprintf(
-		'<button type="button" title="%s" data-product_id="%s" class="wc-mnm-quick-view-button button"><span></span>%s</button>',
+		'<button type="button" title="%s" data-product_id="%d" class="wc-mnm-quick-view-button button"><span></span>%s</button>',
 		esc_attr( $child_product->get_title() ),
-		$child_product->get_id(),
+		esc_attr( $child_product->get_id() ),
 		esc_html__( 'Quick View', 'wc-mnm-quickview' )
 	)
 );
