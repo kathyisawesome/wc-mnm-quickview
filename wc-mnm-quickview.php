@@ -37,6 +37,9 @@ class WC_MNM_Quickview {
 	 */
 	public static function init() {
 
+		// Declare HPOS compatibility.
+		add_action( 'before_woocommerce_init', array( __CLASS__, 'declare_hpos_compatibility' ) );
+
 		// Register Scripts.
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'register_scripts' ) );
 
@@ -48,6 +51,24 @@ class WC_MNM_Quickview {
 
     }
 
+	/*-----------------------------------------------------------------------------------*/
+	/* Core Compat */
+	/*-----------------------------------------------------------------------------------*/
+
+
+	/**
+	 * Declare HPOS (Custom Order tables) compatibility.
+	 *
+	 * @since 2.0.0
+	 */
+	public static function declare_hpos_compatibility() {
+
+		if ( ! class_exists( 'Automattic\WooCommerce\Utilities\FeaturesUtil' ) ) {
+			return;
+		}
+
+		\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', plugin_basename( __FILE__ ), true );
+	}
 
 	/*-----------------------------------------------------------------------------------*/
 	/* Scripts and Styles */
