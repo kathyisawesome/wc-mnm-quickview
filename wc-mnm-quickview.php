@@ -94,12 +94,12 @@ class WC_MNM_Quickview {
 			$script_dependencies[] = 'photoswipe-ui-default';
 		}
 
-		$plugin_url = untrailingslashit( plugins_url( basename( plugin_dir_path( __FILE__ ) ), basename( __FILE__ ) ) );
+		// Scripts.
+		$script_path    = 'assets/js/frontend/quickview' . $suffix . '.js';
+		$script_url     = trailingslashit( plugins_url( '/', __FILE__ ) ) . $script_path;
+		$script_version = WC_Mix_and_Match()->get_file_version( trailingslashit( plugin_dir_path( __FILE__ ) ) . $script_path, self::VERSION );
 
-		$suffix     = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-		
-		wp_register_script( 'wc-mnm-quickview', $plugin_url . '/assets/js/frontend/quickview' . $suffix . '.js', $script_dependencies, self::VERSION, true );
-
+		wp_register_script( 'wc-mnm-quickview', $script_url, $script_dependencies, $script_version, true );
 
 		wp_localize_script(
 			'wc-mnm-quickview',
