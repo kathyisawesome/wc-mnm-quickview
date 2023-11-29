@@ -52,6 +52,8 @@ class WC_MNM_Quickview {
 		// Attach form hooks.
 		add_action( 'wc_mnm_quick_view_before_single_product', array( __CLASS__, 'template_hooks' ) );
 
+		add_action( 'wc_quick_view_before_single_product', array( __CLASS__, 'template_hooks' ) );
+
 	}
 
 	/*-----------------------------------------------------------------------------------*/
