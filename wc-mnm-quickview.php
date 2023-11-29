@@ -82,7 +82,7 @@ class WC_MNM_Quickview {
 
 		wp_localize_script(
 			'wc-mnm-quickview',
-			'WC_MNM_QUICKVIEW_OPTIONS',
+			'WC_MNM_QUICKVIEW_PARAMS',
 			array(
 				'ajax_url' => WC_AJAX::get_endpoint( 'wc-mnm-quickview&ajax=true&product_id=%%product_id%%' ),
 			)
