@@ -13,17 +13,14 @@
  * @see     https://docs.woocommerce.com/document/template-structure/
  * @author  Kathy Darling
  * @package WooCommerce Mix and Match/Templates
- * @since   1.0.0
+ * @since   2.0.0
+ * @version 2.0.0
  */
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 global $product;
-
-// Change form action to avoid redirect to product page.
-add_filter( 'woocommerce_add_to_cart_form_action', '__return_empty_string' );
-remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_add_to_cart', 30 );
 
 do_action( 'wc_mnm_quick_view_before_single_product' );
 ?>
@@ -62,5 +59,4 @@ do_action( 'wc_mnm_quick_view_before_single_product' );
 </div>
 
 <?php
-remove_filter( 'woocommerce_add_to_cart_form_action', '__return_empty_string' );
 ?>

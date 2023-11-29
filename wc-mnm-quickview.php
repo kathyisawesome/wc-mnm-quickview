@@ -49,7 +49,10 @@ class WC_MNM_Quickview {
 		// Show a product via API.
 		add_action( 'wc_ajax_wc-mnm-quickview', array( __CLASS__, 'modal' ) );
 
-    }
+		// Attach form hooks.
+		add_action( 'wc_mnm_quick_view_before_single_product', array( __CLASS__, 'template_hooks' ) );
+
+	}
 
 	/*-----------------------------------------------------------------------------------*/
 	/* Core Compat */
@@ -193,6 +196,17 @@ class WC_MNM_Quickview {
 		exit;
 	}
 
+	/**
+	 * Modify quickview template.
+	 * 
+	 * @since 2.0.0
+	 */
+	public static function template_hooks() {
+		// Change form action to avoid redirect to product page.
+		add_filter( 'woocommerce_add_to_cart_form_action', '__return_empty_string' );
+		remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_price', 10 );
+		remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_add_to_cart', 30 );
+	}
 
 } //end class: do not remove or there will be no more guacamole for you
 
