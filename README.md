@@ -29,3 +29,4 @@ There is nothing else to configure. Activating the plugin automatically adds a l
 
 1. This is provided as is and does not receive priority support.
 2. Please test thoroughly before using in production.
+3. Requires Mix and Match 2.0.0+

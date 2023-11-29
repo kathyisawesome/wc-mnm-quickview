@@ -116,9 +116,9 @@ class WC_MNM_Quickview {
 	 */
 	public static function load_scripts() {
 
-		if( current_theme_supports( 'wc-product-gallery-lightbox' ) ) {
+		if ( current_theme_supports( 'wc-product-gallery-lightbox' ) ) {
 			wp_enqueue_script( 'wc-mnm-quickview' );
-			add_action( 'woocommerce_mnm_child_item_details', array( __CLASS__, 'display_trigger_button' ), 66, 2 );
+			add_action( 'wc_mnm_child_item_details', array( __CLASS__, 'display_trigger_button' ), 66, 2 );
 			add_action( 'wp_footer', 'woocommerce_photoswipe' );
 		}
 
@@ -133,15 +133,16 @@ class WC_MNM_Quickview {
 	 *
 	 * Replace default filter with new one.
 	 * 
-	 * @param WC_Product $child_product
-	 * @param WC_Product_Mix_and_Match $container_product
+	 * @param obj WC_MNM_Child_Item $child_item of child item
+	 * @param obj WC_Mix_and_Match $container_product the parent container
 	 */
-	public static function display_trigger_button( $child_product, $container_product ) {
+	public static function display_trigger_button( $child_item, $container_product ) {
 
 		wc_get_template(
 			'single-product/mnm/quickview/button.php',
 			array(
-				'child_product' => $child_product,
+				'child_item'        => $child_item,
+				'child_product'     => $child_item->get_product(),
 				'container_product' => $container_product,
 			),
 			'',
@@ -183,4 +184,4 @@ class WC_MNM_Quickview {
 endif; // end class_exists check
 
 // Launch the whole plugin.
-add_action( 'woocommerce_mnm_loaded', array( 'WC_MNM_Quickview', 'init' ) );
+add_action( 'wc_mnm_loaded', array( 'WC_MNM_Quickview', 'init' ) );
