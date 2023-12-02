@@ -14,7 +14,9 @@
   },
   "author": "helgatheviking",
   "devDependencies": {
-    "@lodder/grunt-postcss": "^3.1.1",
+    "@woocommerce/dependency-extraction-webpack-plugin": "^2.3.0",
+    "@wordpress/scripts": "^26.17.0",
+    "autoprefixer": "^10.4.16",
     "grunt": "~1.6.1",
     "grunt-contrib-clean": "^2.0.1",
     "grunt-contrib-compress": "^2.0.0",

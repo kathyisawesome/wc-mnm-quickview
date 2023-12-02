@@ -2,7 +2,7 @@
 /**
  * Plugin Name: WooCommerce Mix and Match -  Quickview
  * Plugin URI: http://www.woocommerce.com/products/woocommerce-mix-and-match-products/
- * Version: 1.0.0-beta-1
+ * Version: 2.0.0-beta.1
  * Description: Add pop-up lightbox for child product details. 
  * Author: Kathy Darling
  * Author URI: http://kathyisawesome.com/
@@ -46,13 +46,15 @@ class WC_MNM_Quickview {
 		// Display Scripts.
 		add_action( 'woocommerce_mix-and-match_add_to_cart', array( __CLASS__, 'load_scripts' ) );
 
+		// Preload REST Responses.
+		add_action( 'woocommerce_mix-and-match_add_to_cart', [ __CLASS__, 'preload_response' ] );
+		add_action( is_admin() ? 'admin_print_footer_scripts' : 'wp_print_footer_scripts', array( __CLASS__, 'enqueue_asset_data' ), 0 );
+
 		// Show a product via API.
 		add_action( 'wc_ajax_wc-mnm-quickview', array( __CLASS__, 'modal' ) );
 
 		// Attach form hooks.
 		add_action( 'wc_mnm_quick_view_before_single_product', array( __CLASS__, 'template_hooks' ) );
-
-		add_action( 'wc_quick_view_before_single_product', array( __CLASS__, 'template_hooks' ) );
 
 	}
 
@@ -92,7 +94,7 @@ class WC_MNM_Quickview {
 		$style_url     = trailingslashit( plugins_url( '/', __FILE__ ) ) . $style_path;
 		$style_version = WC_Mix_and_Match()->get_file_version( trailingslashit( plugin_dir_path( __FILE__ ) ) . $style_path, self::VERSION );
 
-		$style_dependencies  = array( 'woocommerce_prettyPhoto_css', 'wc-mnm-frontend' );
+		$style_dependencies  = array( 'wp-components', 'wc-mnm-frontend' );
 
 		wp_enqueue_style( 'wc-mnm-quickview', $style_url, $style_dependencies, $style_version );
 		wp_style_add_data( 'wc-mnm-quickview', 'rtl', 'replace' );
@@ -115,19 +117,25 @@ class WC_MNM_Quickview {
 		}
 
 		// Scripts.
-		$script_path    = 'assets/js/frontend/quickview' . $suffix . '.js';
-		$script_url     = trailingslashit( plugins_url( '/', __FILE__ ) ) . $script_path;
-		$script_version = WC_Mix_and_Match()->get_file_version( trailingslashit( plugin_dir_path( __FILE__ ) ) . $script_path, self::VERSION );
+		$script_path = 'assets/dist/frontend/quick-view.js';
+		$script_url  = trailingslashit( plugins_url( '/', __FILE__ ) ) . $script_path;
 
-		wp_register_script( 'wc-mnm-quickview', $script_url, $script_dependencies, $script_version, true );
+		$script_asset_path = trailingslashit( plugin_dir_path( __FILE__ ) ) . 'assets/dist/frontend/quick-view.asset.php';
+		$script_asset      = file_exists( $script_asset_path )
+			? require $script_asset_path
+			: array(
+				'dependencies' => array(),
+				'version'      => WC_Mix_and_Match()->get_file_version( trailingslashit( plugin_dir_path( __FILE__ ) ) . $script_path ),
+			);
 
-		wp_localize_script(
+		wp_register_script(
 			'wc-mnm-quickview',
-			'WC_MNM_QUICKVIEW_PARAMS',
-			array(
-				'ajax_url' => WC_AJAX::get_endpoint( 'wc-mnm-quickview&ajax=true&product_id=%%product_id%%' ),
-			)
+			$script_url,
+			$script_asset[ 'dependencies' ],
+			$script_asset[ 'version' ],
+			true
 		);
+
 
 	}
 
@@ -137,12 +145,79 @@ class WC_MNM_Quickview {
 	public static function load_scripts() {
 
 		if ( current_theme_supports( 'wc-product-gallery-lightbox' ) ) {
+
 			wp_enqueue_script( 'wc-mnm-quickview' );
+			
 			add_action( 'wc_mnm_child_item_details', array( __CLASS__, 'display_trigger_button' ), 66, 2 );
-			add_action( 'wp_footer', 'woocommerce_photoswipe' );
+
+			add_action( 'wp_footer', function() {
+				echo '<div id="wc-mix-and-match-quick-view-modal"></div>';
+			});
+
 		}
 
 	}
+
+
+	/*-----------------------------------------------------------------------------------*/
+	/*  Preloading                                                                       */
+	/*-----------------------------------------------------------------------------------*/
+
+		/**
+	 * Stash product ID for lazy preloading.
+	 *
+	 * @return object
+	 */
+	public static function preload_response() {
+	
+		global $product;
+
+		$preloads = WC_MNM_Helpers::cache_get( 'wcMNMQuickViewPreloads' );
+
+		if ( is_array( $preloads ) ) {
+			$preloads[] = $product->get_id();
+			WC_MNM_Helpers::cache_set( 'wcMNMQuickViewPreloads', $preloads );
+		} elseif ( null === $preloads ) {
+			$preloads = [ $product->get_id() ];
+		}
+
+		WC_MNM_Helpers::cache_set( 'wcMNMQuickViewPreloads', $preloads );
+
+	}
+
+	/**
+	 * Preload all variations into WC settings.
+	 *
+	 * @return object
+	 */
+	public static function enqueue_asset_data() {
+
+		$preloads = WC_MNM_Helpers::cache_get( 'wcMNMQuickViewPreloads' );
+
+		if ( ! empty( $preloads ) && is_array( $preloads ) ) {
+
+			$data = [];
+
+			$assets = Automattic\WooCommerce\Blocks\Package::container()->get( Automattic\WooCommerce\Blocks\Assets\AssetDataRegistry::class );
+
+			foreach ( $preloads as $product_id ) {
+
+				$rest_route = '/wc/store/v1/products/' . $product_id ;
+
+				$assets->hydrate_api_request( $rest_route );
+
+				$rest_preload_api_requests = rest_preload_api_request( [], $rest_route );
+
+				$data[$product_id] = $rest_preload_api_requests[$rest_route]['body']['extensions']->mix_and_match ?? [];
+
+			}
+
+			$assets->add( 'wcMNMQuickViewPreloads', $data );
+
+		}
+	
+	}
+
 
 	/*-----------------------------------------------------------------------------------*/
 	/* Display                                                                           */

@@ -17,6 +17,13 @@ div.wc-mnm-quick-view {
 
 .wc-mnm-quick-view-button {
 
+	border: 0;
+	background: none;
+	color: inherit;
+	cursor: pointer;
+	display: block !important;
+	float: none !important;
+
 	span {
 		margin-right:.875em;
 		display: inline-block;
@@ -51,10 +58,4 @@ div.wc-mnm-quick-view {
 			margin-left:-.125em;
 		}
 	}
-}
-
-// Fix modal height. 
-.product-type-mix-and-match .pp_woocommerce_quick_view .pp_content {
-	overflow: auto;
-	height: auto !important;
 }

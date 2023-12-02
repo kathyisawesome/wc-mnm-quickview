@@ -59,4 +59,5 @@ do_action( 'wc_mnm_quick_view_before_single_product' );
 </div>
 
 <?php
+do_action( 'wc_mnm_quick_view_after_single_product' );
 ?>
