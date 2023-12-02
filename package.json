@@ -33,13 +33,22 @@
     "node-sass": "^9.0.0",
     "postcss": "^8.4.31"
   },
-  "dependencies": {
-    "autoprefixer": "^10.4.16"
-  },
   "scripts": {
-    "build": "grunt build",
-    "dev": "grunt dev",
-    "release": "grunt release",
-    "prerelease": "grunt prerelease"
+    "build:js": "wp-scripts build",
+    "build": "npm run build:js && grunt build",
+    "dev": "npm run build:js && grunt dev",
+    "format": "wp-scripts format",
+    "lint:css": "wp-scripts lint-style",
+    "lint:js": "wp-scripts lint-js",
+    "lint:md:docs": "wp-scripts lint-md-docs",
+    "lint:pkg-json": "wp-scripts lint-pkg-json",
+    "plugin-zip": "wp-scripts plugin-zip",
+    "prerelease": "npm run makepot && npm run build:js && grunt prerelease",
+    "makepot": "composer run-script makepot",
+    "release": "npm run makepot && npm run build:js && grunt release",
+    "start": "wp-scripts start"
+  },
+  "dependencies": {
+    "interweave": "^13.1.0"
   }
 }
