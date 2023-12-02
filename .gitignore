@@ -1,7 +1,7 @@
 # Editors
 project.xml
 project.properties
-/nbproject/private/
+nbproject/private/
 .buildpath
 .project
 .settings*
@@ -9,9 +9,9 @@ sftp-config.json
 .idea
 
 # Grunt
-/node_modules/
-/deploy/
-/build/
+node_modules/
+deploy/
+build/
 npm-debug.log
 
 # Sass
@@ -27,13 +27,14 @@ Thumbs.db
 /wc-apidocs/
 
 # Unit tests
-/tmp
+tmp/
 
 # Logs
-/logs
+logs/
 package-lock.json
 
 # Compiled assets
+assets/dist/
 assets/js/frontend/*.min.js
 assets/js/backend/*.min.js
 assets/css/
@@ -42,3 +43,6 @@ none
 
 # Editor
 .vscode/
+
+# Composer
+vendor/
