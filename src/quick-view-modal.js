@@ -51,8 +51,6 @@ function getContainer( containerId ) {
  */
 function getChildItem( container, childId ) {
 
-    console.debug('childID', childId);
-
     try {
         // Only attempt to resolve if there's a product ID here.
         if ( childId && container.child_items ) {
@@ -93,8 +91,6 @@ const QuickViewModal = () => {
 
             // Ignore elements without the .wc-mnm-quick-view-button class
             if ( ! event.target.closest('.wc-mnm-quick-view-button') ) return;
-
-           
             
             // Run your code...
             event.preventDefault();
@@ -102,8 +98,6 @@ const QuickViewModal = () => {
             let containerId = event.target.getAttribute('data-container_id' );
 
             let product = getContainer( containerId );
-
-            console.debug(product);
 
             setContainer( product );
 
