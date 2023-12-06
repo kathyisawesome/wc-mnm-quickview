@@ -4,13 +4,9 @@
 import { Interweave } from 'interweave';
 import { getSetting } from '@woocommerce/settings';
 import { decodeEntities } from '@wordpress/html-entities';
-import { _x } from '@wordpress/i18n';
 
 import { useState, useEffect } from '@wordpress/element';
-import { Button, Modal } from '@wordpress/components';
-
-
-import { useContainer, ContainerProvider } from './context/container';
+import { Modal } from '@wordpress/components';
 
 /**
  * Fetch a product object from the Store API.
