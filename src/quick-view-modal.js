@@ -117,7 +117,7 @@ const QuickViewModal = () => {
             { isOpen && (
                 <Modal onRequestClose={ closeModal }>
 
-                    <div className="wp-block-columns wp-block-columns is-layout-flex  wp-block-columns-is-layout-flex">
+                    <div className="is-layout-constrained wp-block-columns wp-block-columns is-layout-flex  wp-block-columns-is-layout-flex">
                         
                         <div className="wp-block-column" style={{'flexBasis':'40%'}}>
 
