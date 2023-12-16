@@ -28,6 +28,7 @@ if ( ! class_exists( 'WC_MNM_Quickview' ) ) :
 		 */
 		const VERSION = '2.0.0-alpha.1';
 
+		const REQ_MNM_VERSION = '2.6.0';
 
 		/**
 		 * WC_MNM_Quickview Constructor
@@ -37,6 +38,11 @@ if ( ! class_exists( 'WC_MNM_Quickview' ) ) :
 		 */
 		public static function init() {
 
+
+			// Quietly quit if Mix and Match is not active or below required version.
+			if ( ! function_exists( 'wc_mix_and_match' ) || version_compare( wc_mix_and_match()->version, self::REQ_MNM_VERSION ) < 0 ) {
+				return false;
+			}
 
 
 			// Declare HPOS compatibility.
@@ -257,4 +263,4 @@ if ( ! class_exists( 'WC_MNM_Quickview' ) ) :
 endif; // end class_exists check
 
 // Launch the whole plugin.
-add_action( 'wc_mnm_loaded', array( 'WC_MNM_Quickview', 'init' ) );
+add_action( 'plugins_loaded', array( 'WC_MNM_Quickview', 'init' ), 20 );
