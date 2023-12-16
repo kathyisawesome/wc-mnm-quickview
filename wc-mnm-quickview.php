@@ -149,6 +149,7 @@ if ( ! class_exists( 'WC_MNM_Quickview' ) ) :
 				true
 			);
 
+			wp_script_add_data( 'wc-add-quickview', 'strategy', 'defer' );
 
 		}
 
