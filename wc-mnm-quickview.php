@@ -2,7 +2,7 @@
 /**
  * Plugin Name: WooCommerce Mix and Match -  Quickview
  * Plugin URI: http://www.woocommerce.com/products/woocommerce-mix-and-match-products/
- * Version: 2.0.0-alpha.1
+ * Version: 2.0.0
  * Description: Add pop-up lightbox for child product details. 
  * Author: Kathy Darling
  * Author URI: http://kathyisawesome.com/
@@ -26,7 +26,7 @@ if ( ! class_exists( 'WC_MNM_Quickview' ) ) :
 		/**
 		 * constants
 		 */
-		const VERSION = '2.0.0-alpha.1';
+		const VERSION = '2.0.0';
 
 		const REQ_MNM_VERSION = '2.6.0';
 
