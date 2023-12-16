@@ -59,3 +59,10 @@ div.wc-mnm-quick-view {
 		}
 	}
 }
+
+.has-center-aligned-quantity {
+	.wc-mnm-quick-view-button {
+		margin-right: auto;
+		margin-left: auto;
+	}
+}
