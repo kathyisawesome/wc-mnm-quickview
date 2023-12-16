@@ -29,7 +29,7 @@ jQuery(
 				if ( product_id ) {
 					$.prettyPhoto.open(
 						decodeURIComponent(
-							WC_MNM_QUICKVIEW_OPTIONS.ajax_url.replace(
+							WC_MNM_QUICKVIEW_PARAMS.ajax_url.replace(
 								'%%product_id%%',
 								product_id
 							)
